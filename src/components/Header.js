@@ -2,9 +2,9 @@ import React from 'react';
 
 function Header() {
   return (
-    <article className='w-full h-96 flex justify-center items-center overflow-hidden bg-VouwfietsHeader bg-center bg-cover'>
-        <article className='absolute bg-black w-full h-96 opacity-25'></article>
-        <p className='absolute text-white text-9xl font-roboto'>Vouwfiets.nl</p>
+    <article className='w-full h-44 flex justify-center items-center overflow-hidden bg-VouwfietsHeader bg-center bg-cover md:h-72 lg:h-96'>
+        <article className='absolute bg-black w-full h-44 opacity-25 md:h-72 lg:h-96'></article>
+        <p className='absolute text-white text-6xl font-roboto md:text-8xl lg:text-9xl'>Vouwfiets.nl</p>
     </article>
   );
 }

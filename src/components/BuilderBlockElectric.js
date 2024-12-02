@@ -2,9 +2,9 @@ import React from 'react';
 
 function BuilderBlockElectric(props) {
   return (
-    <article className='border border-neutral-300 w-1/5 h-full'>
+    <article className='border border-neutral-300 w-full'>
         <img  className='w-full' src={props.photo} alt='Aline lifestyle'></img>
-        <section className='w-full h-full flex flex-col items-center '>
+        <section className='w-full flex flex-col items-center '>
             <h2 className='font-roboto text-4xl pt-8'><b>{props.model}</b></h2>
             <p className='font-robotoMono text-sm'>{props.sentence1}</p>
             <p className='font-robotoMono text-sm'>{props.sentence2}</p>
