@@ -1,5 +1,4 @@
 import React from 'react';
-import Aline from '../media/AlineBuilder.png';
 
 function BuilderBlock(props) {
   return (
