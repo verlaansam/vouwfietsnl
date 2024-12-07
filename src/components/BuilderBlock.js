@@ -1,6 +1,24 @@
 import React from 'react';
+import { useState } from 'react';
+import BikeBuilder from './BikeBuilder';
+
+import AlineSelecter from '../media/ClineSelecter.png'
 
 function BuilderBlock(props) {
+
+  const [components, setComponents] = useState([]) 
+
+  function showBikeBuilder(){
+    setComponents([...components, "Sample Component"]) 
+  }
+  
+  function TypeBrompton({model}){
+    if(model === "A Line"){
+      return <BikeBuilder photo={AlineSelecter}/>
+    }
+    
+  }
+
   return (
     <article className='border border-neutral-300 w-full'>
         <img  className='w-full' src={props.photo} alt='Aline lifestyle'></img>
@@ -9,7 +27,8 @@ function BuilderBlock(props) {
             <p className='font-robotoMono text-sm'>{props.sentence1}</p>
             <p className='font-robotoMono text-sm'>{props.sentence2}</p>
             <h4 className='font-robotoMono text-base mt-2'><b>Vanaf €{props.price}</b></h4>
-            <button className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>Ontdek {props.model}</button>
+            <button onClick={showBikeBuilder} className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>Ontdek {props.model}</button>
+            {components.map((item, i) => ( <TypeBrompton model={props.model}/> ))}
         </section>
         
     </article>

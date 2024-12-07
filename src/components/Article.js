@@ -6,6 +6,7 @@ import Gline from '../media/GlineBuilder.png';
 import Cline from '../media/ClineBuilder.png';
 import Pline from '../media/PlineBuilder.png';
 import Tline from '../media/TlineBuilder.png';
+import AlineBuilder from '../media/ClineSelecter.png';
 
 
 function Article(props) {
