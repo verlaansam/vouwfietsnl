@@ -1,5 +1,5 @@
 export const bikes = [{
-    id: 'Aline',
+    id: 'ALine',
     startPrijs:  [1100],
     versnelling: [3],
     versnellingPrijs: [0],
@@ -11,7 +11,7 @@ export const bikes = [{
     kleur: ['papyrus white'], 
     kleurPrijs: [0],
 },{
-    id: 'Cline',
+    id: 'CLine',
     startPrijs: [1599],
     versnelling: ['2', '6'],
     versnellingPrijs: [0, 89.88],
@@ -27,7 +27,7 @@ export const bikes = [{
     kleur: ['Black Matt','Bumblebee Yellow', 'Dune Sand', 'Gloss Black Laquer', 'Ocean Blue', 'Racing Green'], 
     kleurPrijs: [0,0,0,158.78,0,0],
 },{
-    id: 'ClineElectric',
+    id: 'CLineElectric',
     startPrijs: [3750],
     versnelling: ['4', '12'],
     versnellingPrijs: [0, 193.39],
@@ -43,7 +43,7 @@ export const bikes = [{
     kleur: ['Black','Bumblebee Yellow', 'Dune Sand', 'Gloss Black Laquer', 'Ocean Blue', 'Racing Green'], 
     kleurPrijs: [0,0,0,158.78,0,0],
 },{
-    id: 'Tline',
+    id: 'TLine',
     startPrijs: [4950],
     versnelling: ['1','4', '12'],
     versnellingPrijs: [0,179.15, 328.95],
@@ -59,7 +59,7 @@ export const bikes = [{
     kleur: ['blasted Ti'], 
     kleurPrijs: [0],
 },{
-    id: 'Pline',
+    id: 'PLine',
     startPrijs: [2824],
     versnelling: ['4', '12'],
     versnellingPrijs: [0,149.79],
@@ -75,7 +75,7 @@ export const bikes = [{
     kleur: ['Midnight Black Metalic','Bolt Blue Lacquer','Bronze Sky','Lunar Ice'], 
     kleurPrijs: [0,71.9,0,0],
 },{
-    id: 'PlineElectric',
+    id: 'PLineElectric',
     startPrijs: [4199],
     versnelling: ['4', '12'],
     versnellingPrijs: [0,128.92],
@@ -91,7 +91,7 @@ export const bikes = [{
     kleur: ['Midnight Black Metalic','Bolt Blue Lacquer','Bronze Sky','Lunar Ice'], 
     kleurPrijs: [0,71.9,0,0],
 },{
-    id: 'Gline',
+    id: 'GLine',
     startPrijs: [2969],
     versnelling: ['8'],
     versnellingPrijs: [0],
@@ -107,7 +107,7 @@ export const bikes = [{
     kleur: ['Adventure Orange','Forest Green','Traildust White'], 
     kleurPrijs: [0,0,0],
 },{
-    id: 'GlineElectric',
+    id: 'GLineElectric',
     startPrijs: [3999],
     versnelling: ['8'],
     versnellingPrijs: [0],

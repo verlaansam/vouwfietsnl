@@ -2,20 +2,24 @@ import React from 'react';
 import { useState } from 'react';
 import BikeBuilder from './BikeBuilder';
 
-import AlineSelecter from '../media/ClineSelecter.png'
+import ClineSelecter from '../media/ClineSelecter.png'
 
 function BuilderBlock(props) {
 
-  const [components, setComponents] = useState([]) 
+  const [showMore, setShowMore] = useState(false);
 
   function showBikeBuilder(){
-    setComponents([...components, "Sample Component"]) 
+    setShowMore(!showMore);
   }
   
   function TypeBrompton({model}){
-    if(model === "A Line"){
-      return <BikeBuilder photo={AlineSelecter}/>
+    if(model === "ALine"){
+      return <BikeBuilder model={model} photo={ClineSelecter}/>
     }
+    if(model === "TLine"){
+      return <BikeBuilder model={model} photo={ClineSelecter}/>
+    }
+
     
   }
 
@@ -27,8 +31,8 @@ function BuilderBlock(props) {
             <p className='font-robotoMono text-sm'>{props.sentence1}</p>
             <p className='font-robotoMono text-sm'>{props.sentence2}</p>
             <h4 className='font-robotoMono text-base mt-2'><b>Vanaf €{props.price}</b></h4>
-            <button onClick={showBikeBuilder} className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>Ontdek {props.model}</button>
-            {components.map((item, i) => ( <TypeBrompton model={props.model}/> ))}
+            <button onClick={showBikeBuilder} className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>{showMore ? 'verberg' : 'Ontdek'} {props.model}</button>
+            {showMore && <TypeBrompton key={crypto.randomUUID} model={props.model}/>}
         </section>
         
     </article>
