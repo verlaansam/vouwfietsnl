@@ -1,3 +1,5 @@
+//TODO
+//data bestand maken met 7 opties en uitlezen naar keuzenhulp op baisi van gekozen button
 import React from 'react';
 
 function KeuzenHulp(props) {

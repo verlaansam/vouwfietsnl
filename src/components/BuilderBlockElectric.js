@@ -1,3 +1,6 @@
+//TODO:
+//toeveogen fotos per fiets
+
 import React from 'react';
 import { useState } from 'react';
 import BikeBuilder from './BikeBuilder';

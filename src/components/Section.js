@@ -1,3 +1,5 @@
+//TODO
+//tekst uitlijnen
 import React from 'react';
 import Block from './Block';
 import BlockWhite from './BlockWhite'

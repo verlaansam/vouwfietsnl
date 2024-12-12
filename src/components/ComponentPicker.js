@@ -1,10 +1,13 @@
+//TODO:
+//prijs toevoegen
+//plaatjes toeveogen van comp
 import React from 'react';
 
 import { bikes} from './data';
 
 function ComponentPicker(props) {
 
-    //component prop uitlezen voor render juiste component picker
+
     
     const BikeType = bikes.filter(bikes =>
         bikes.id === props.model

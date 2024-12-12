@@ -4,7 +4,7 @@ export const bikes = [{
     versnelling: [3],
     versnellingPrijs: [0],
     stuur: ['m'],
-    rack:['spatborden'],
+    rack:['geen'],
     rackPrijs:[0],
     zadel: ['standaard'],
     zadelPrijs: [0],
