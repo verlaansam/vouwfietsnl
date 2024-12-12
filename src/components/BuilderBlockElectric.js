@@ -5,10 +5,10 @@ import BikeBuilder from './BikeBuilder';
 import ClineSelecter from '../media/ClineSelecter.png'
 
 function BuilderBlockElectric(props) {
-  const [components, setComponents] = useState([]) 
+  const [showMore, setShowMore] = useState(false); 
 
   function showBikeBuilder(){
-    setComponents([...components, "Sample Component"]) 
+    setShowMore(!showMore);
   }
   
   function TypeBrompton({model}){
@@ -31,9 +31,9 @@ function BuilderBlockElectric(props) {
             <p className='font-robotoMono text-sm'>{props.sentence1}</p>
             <p className='font-robotoMono text-sm'>{props.sentence2}</p>
             <h4 className='font-robotoMono text-base mt-2'><b>Vanaf €{props.price}</b></h4>
-            <button onClick={showBikeBuilder} className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>Ontdek {props.model}</button>
+            <button onClick={showBikeBuilder} className='font-robotoMono text-sm border border-black p-1 m-4 hover:text-white hover:bg-black'>{showMore ? 'verberg' : 'Ontdek'} {props.model}</button>
             <button className='font-robotoMono text-sm border-b border-black m-4'>ontdek {props.model} Electric</button>
-            {components.map((item, i) => ( <TypeBrompton key={crypto.randomUUID} model={props.model}/> ))}
+            {showMore && <TypeBrompton key={crypto.randomUUID} model={props.model}/>}
         </section>
         
     </article>
