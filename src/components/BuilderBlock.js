@@ -3,7 +3,8 @@ import React from 'react';
 import { useState } from 'react';
 import BikeBuilder from './BikeBuilder';
 
-import ClineSelecter from '../media/ClineSelecter.png'
+import AlineSelecter from '../media/AlineSelecter.png';
+import TlineSelecter from '../media/TlineSelecter.png';
 
 function BuilderBlock(props) {
 
@@ -15,13 +16,11 @@ function BuilderBlock(props) {
   
   function TypeBrompton({model}){
     if(model === "ALine"){
-      return <BikeBuilder model={model} photo={ClineSelecter}/>
+      return <BikeBuilder model={model} photo={AlineSelecter}/>
     }
     if(model === "TLine"){
-      return <BikeBuilder model={model} photo={ClineSelecter}/>
+      return <BikeBuilder model={model} photo={TlineSelecter}/>
     }
-
-    
   }
 
   return (

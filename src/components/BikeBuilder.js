@@ -6,6 +6,7 @@ import { useRef } from 'react';
 
 import KeuzenHulp from './KeuzenHulp';
 import ComponentPicker from './ComponentPicker';
+import Exclude from '../media/Exclude.png';
 
 function BikeBuilder(props) {
   const ref = useRef(null);
@@ -23,15 +24,17 @@ function BikeBuilder(props) {
 
   return (
     <article className='w-[360px] h-[1000px] bg-neutral-500 relative'>
-       <img  className='w-full' src={props.photo} alt='Aline lifestyle'></img>
-       <button  ref={ref} id='versnelling' onClick={HandleClick} className='absolute w-9 h-9 top-[205px] left-9 rounded-full border border-neutral-400'></button>
-       <button  ref={ref} id='rack' onClick={HandleClick} className='absolute w-9 h-9 top-[165px] left-[17px] rounded-full border border-neutral-400'></button>
-       <button  ref={ref} id='zadel' onClick={HandleClick} className='absolute w-[72px] h-[72px] top-[0px] left-[70px] rounded-full border border-neutral-400'></button>
-       <button  ref={ref} id='kleur' onClick={HandleClick} className='absolute w-[53px] h-[53px] top-[140px] left-[127px] rounded-full border border-neutral-400'></button>
-       <button  ref={ref} id='stuur' onClick={HandleClick} className='absolute w-[72px] h-[72px] top-[0px] left-[218px] rounded-full border border-neutral-400'></button>
-       <button  ref={ref} id='verlichting' onClick={HandleClick} className='absolute w-9 h-9 top-[145px] left-[283px] rounded-full border border-neutral-400'></button>
-       {showMore && <ComponentPicker model={props.model} component={component}/>}
-       <KeuzenHulp/>
+      <img  className='w-full absolute' src={Exclude} alt='overlay'></img>
+      <img  className='w-full' src={props.photo} alt={props.model}></img>
+      <button  ref={ref} id='versnelling' onClick={HandleClick} className='absolute w-9 h-9 top-[206px] left-[38px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='rack' onClick={HandleClick} className='absolute w-9 h-9 top-[165px] left-[18px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='zadel' onClick={HandleClick} className='absolute w-[72px] h-[72px] top-[8px] left-[72px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='kleur' onClick={HandleClick} className='absolute w-[53px] h-[53px] top-[140px] left-[128px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='stuur' onClick={HandleClick} className='absolute w-[72px] h-[72px] top-[4px] left-[218px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='verlichting' onClick={HandleClick} className='absolute w-9 h-9 top-[143px] left-[278px] rounded-full border border-neutral-400'></button>
+      <button  ref={ref} id='zadelHoogte' onClick={HandleClick} className='absolute w-9 h-9 top-[94px] left-[100px] rounded-full border border-neutral-400'></button>
+      {showMore && <ComponentPicker model={props.model} component={component}/>}
+      
     </article>
   );
 }

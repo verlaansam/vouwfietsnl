@@ -4,10 +4,9 @@
 import React from 'react';
 
 import { bikes} from './data';
+import KeuzenHulp from './KeuzenHulp';
 
 function ComponentPicker(props) {
-
-
     
     const BikeType = bikes.filter(bikes =>
         bikes.id === props.model
@@ -69,7 +68,7 @@ function ComponentPicker(props) {
     );
     
   return (
-    <article className='w-full bg-white flex justify-center items-center p-4'>
+    <article className='w-full bg-white flex justify-center items-center p-4 flex-col'>
         <section className='w-4/5 border border-black p-1'>
             {props.component === 'zadel' ? listItemsZadel : ''}
             {props.component === 'zadelHoogte' ? listItemsZadelHoogte : ''}
@@ -79,6 +78,7 @@ function ComponentPicker(props) {
             {props.component === 'kleur' ? listItemskleur : ''}
             {props.component === 'versnelling' ? listItemsVersnelling : ''}
         </section>
+        <KeuzenHulp model={props.model} component={props.component}/>
     </article>
   );
 }
