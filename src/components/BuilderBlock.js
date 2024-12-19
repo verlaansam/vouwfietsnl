@@ -12,6 +12,7 @@ function BuilderBlock(props) {
 
   function showBikeBuilder(){
     setShowMore(!showMore);
+    localStorage.clear();
   }
   
   function TypeBrompton({model}){

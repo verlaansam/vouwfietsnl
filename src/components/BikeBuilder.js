@@ -4,7 +4,6 @@ import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 
-import KeuzenHulp from './KeuzenHulp';
 import ComponentPicker from './ComponentPicker';
 import Exclude from '../media/Exclude.png';
 
