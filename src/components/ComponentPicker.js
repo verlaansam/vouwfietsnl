@@ -1,150 +1,92 @@
-//TODO:
-//plaatjes toeveogen van comp
-//opslaan item in localstorage https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+//TODO
+//voeg fotos toe
 
-import { bikes} from './data';
+import React, { useState, useEffect } from 'react';
+
+import { bikes } from './data';
 import KeuzenHulp from './KeuzenHulp';
 import JouwBrompton from './JouwBrompton';
 
+import Battery from '../media/Battery.png';
+import Dynamo from '../media/Dynamo.png';
+import Reflector from '../media/Reflector.png';
+
+const mapImages = {
+  battery: Battery,
+  dynamo: Dynamo,
+  reflector: Reflector
+};
+
 function ComponentPicker(props) {
-    const [items, setItems] = useState([]);
+  const [items, setItems] = useState({});
 
-    const BikeType = bikes.filter(bikes =>
-        bikes.id === props.model,
+  // Filter de BikeType op basis van het geselecteerde model
+  const BikeType = bikes.find(bike => bike.id === props.model);
 
-        useEffect(() => {
-        localStorage.setItem('BikeT', JSON.stringify(items));
-        }, [items])
-    );
+  useEffect(() => {
+    // Sla het geselecteerde BikeType op in localStorage bij de eerste render
+    if (BikeType) {
+      localStorage.setItem('BikeType', props.model);
+    }
+  }, [BikeType]);
 
-    function handleClick(e) {
-        const component = e.target.id;
-        const type = e.target.textContent;
-        localStorage.setItem(component, type);
+  function handleClick(e) {
+    const category = e.currentTarget.id;
+    let item;
+
+    // Controleer of het element een afbeelding bevat
+    if (e.target.tagName === 'IMG') {
+      item = e.target.alt;  // Gebruik de alt-tekst van de afbeelding
+    } else {
+      item = e.target.textContent;  // Gebruik de tekst van de knop
     }
 
-    const listItemsVersnelling = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.versnelling.map(versnelling =>
-                <button key={versnelling} id='versnelling' onClick={handleClick}>{versnelling}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.versnellingPrijs.map(versnellingPrijs =>
-                <button key={versnellingPrijs} id='versnellingPrijs' onClick={handleClick}>€{versnellingPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
+    // Update de localStorage en de state
+    localStorage.setItem(category, item);
+    setItems(prevItems => ({ ...prevItems, [category]: item }));
 
-    const listItemsZadel = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.zadel.map(zadel =>
-                <button key={zadel} id='zadel' onClick={handleClick}>{zadel}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.zadelPrijs.map(zadelPrijs =>
-                <button key={zadelPrijs} id='zadelPrijs' onClick={handleClick}>€{zadelPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
+    // Sla het huidige BikeType op in localStorage (indien nodig)
+    if (BikeType) {
+      localStorage.setItem('BikeType', props.model);
+    }
+  }
 
-    const listItemsZadelHoogte = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.zadelHoogte.map(zadelHoogte =>
-                <button key={zadelHoogte} id='zadelHoogtePrijs' onClick={handleClick}>{zadelHoogte}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.zadelHoogtePrijs.map(zadelHoogtePrijs =>
-                <button key={zadelHoogtePrijs} id='zadelHoogtePrijs' onClick={handleClick}>€{zadelHoogtePrijs}</button>
-            )}
-            </div>
-        </div>
-    );
-
-    const listItemsRack = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.rack.map(rack =>
-                <button key={rack} id='rack' onClick={handleClick}>{rack}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.rackPrijs.map(rackPrijs =>
-                <button key={rackPrijs} id='versnelling' onClick={handleClick}>€{rackPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
-
-    const listItemsStuur = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.stuur.map(stuur =>
-                <button key={stuur} id='stuur' onClick={handleClick}>{stuur}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.stuurPrijs.map(stuurPrijs =>
-                <button key={stuurPrijs} id='versnelling' onClick={handleClick}>€{stuurPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
-    const listItemsverlichting = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.verlichting.map(verlichting =>
-                <button key={verlichting} id='verlichting' onClick={handleClick}>{verlichting}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.verlichtingPrijs.map(verlichtingPrijs =>
-                <button key={verlichtingPrijs} id='verlichtingPrijs' onClick={handleClick}>€{verlichtingPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
-
-    const listItemskleur = BikeType.map(bikes =>
-        <div className='flex justify-around flex-col' key={bikes.id}>
-            <div className='w-full flex justify-around'>
-            {bikes.kleur.map(kleur =>
-                <button key={kleur} id='kleur' onClick={handleClick}>{kleur}</button>
-            )}
-            </div>
-            <div className='w-full flex justify-around'>
-            {bikes.kleurPrijs.map(kleurPrijs =>
-                <button key={kleurPrijs} id='kleurPrijs' onClick={handleClick}>€{kleurPrijs}</button>
-            )}
-            </div>
-        </div>
-    );
+  // Genereer de lijstitems voor elke categorie
+  const renderList = (bike, category, prices, map) => (
+    <div className='flex justify-around flex-col' key={bike.id}>
+      <div className='w-full flex justify-around'>
+        {bike[category].map((item, index) => (
+          <button key={item} id={category} onClick={handleClick}>
+            {map ? <img src={mapImages[item.toLowerCase()]} alt={item} /> : item}
+          </button>
+        ))}
+      </div>
+      <div className='w-full flex justify-around'>
+        {bike[prices].map((price, index) => (
+          <p key={price} id={`${category}Prijs`} onClick={handleClick}>€{price}</p>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <article className='w-full bg-white flex justify-center items-center p-4 flex-col'>
-        <section className='w-4/5 border border-black p-1'>
-            {props.component === 'zadel' ? listItemsZadel : ''}
-            {props.component === 'zadelHoogte' ? listItemsZadelHoogte : ''}
-            {props.component === 'rack' ? listItemsRack : ''}
-            {props.component === 'stuur' ? listItemsStuur : ''}
-            {props.component === 'verlichting' ? listItemsverlichting : ''}
-            {props.component === 'kleur' ? listItemskleur : ''}
-            {props.component === 'versnelling' ? listItemsVersnelling : ''}
-        </section>
-        <KeuzenHulp model={props.model} component={props.component}/>
-        <JouwBrompton/>
+      <section className='w-4/5 border border-black p-1'>
+        {props.component === 'zadel' && renderList(BikeType, 'zadel', 'zadelPrijs')}
+        {props.component === 'zadelHoogte' && renderList(BikeType, 'zadelHoogte', 'zadelHoogtePrijs')}
+        {props.component === 'rack' && renderList(BikeType, 'rack', 'rackPrijs')}
+        {props.component === 'stuur' && renderList(BikeType, 'stuur', 'stuurPrijs')}
+        {props.component === 'verlichting' && renderList(BikeType, 'verlichting', 'verlichtingPrijs', true)}
+        {props.component === 'kleur' && renderList(BikeType, 'kleur', 'kleurPrijs')}
+        {props.component === 'versnelling' && renderList(BikeType, 'versnelling', 'versnellingPrijs')}
+      </section>
+      <KeuzenHulp model={props.model} component={props.component} />
+      <JouwBrompton />
     </article>
   );
-};
+}
 
 export default ComponentPicker;
+
+
+
