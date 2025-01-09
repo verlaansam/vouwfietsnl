@@ -1,0 +1,14 @@
+versnellingen
+"1,2,3,4,6,8,12"
+zadelhoogte
+"normal, extended," telescopic
+stuur
+"s,m,h"
+verlichting
+"reflector, dynamo,buildin,lezyne"
+begagedrager
+"zonder,spatbord,rack"
+zadel
+"standaard, standaardwide,B17,C17,standaardsuperlight,"
+kleur
+"blasted Ti,Midnight Black Metalic, Bolt Blue Lacquer, Bronze Sky, lunar Ice, black matt, bumblebee yellow, dune sand, gloss black laquer, ocean blue, racing green,Adventure Orange, Forest Green, Traildus White, papyrus white"
