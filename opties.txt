@@ -12,3 +12,6 @@ zadel
 "standaard, standaardwide,B17,C17,standaardsuperlight,"
 kleur
 "blasted Ti,Midnight Black Metalic, Bolt Blue Lacquer, Bronze Sky, lunar Ice, black matt, bumblebee yellow, dune sand, gloss black laquer, ocean blue, racing green,Adventure Orange, Forest Green, Traildus White, papyrus white"
+
+<button onClick={handleEmailSubmit} className="bg-black text-white shadow-lg w-3/5 max-w-24 h-10 flex justify-center items-center text-l font-roboto hover:bg-white hover:text-black hover:border-2 hover:border-black md:text-lg lg:text-2xl">Verzenden</button>
+              <button onClick={() => setShowPopup(false)} className="bg-white text-black border border-black shadow-lg w-3/5 max-w-24 h-10  flex justify-center items-center text-l font-roboto hover:bg-white hover:text-black hover:border-2 hover:border-black md:text-lg lg:text-2xl">Annuleren</button>

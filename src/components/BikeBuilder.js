@@ -22,7 +22,7 @@ function BikeBuilder(props) {
   }
 
   return (
-    <article className='w-[360px] h-[1000px] bg-neutral-500 relative'>
+    <article className='w-[360px] relative'>
       <img  className='w-full absolute' src={Exclude} alt='overlay'></img>
       <img  className='w-full' src={props.photo} alt={props.model}></img>
       <button  ref={ref} id='versnelling' onClick={HandleClick} className='absolute w-9 h-9 top-[206px] left-[38px] rounded-full border border-neutral-400'></button>
