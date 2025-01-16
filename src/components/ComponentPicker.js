@@ -31,7 +31,7 @@ import b17 from '../media/comp/b17.png';
 import carbonsaddle from '../media/comp/carbonsaddle.png';
 import hoogtestandaard from '../media/comp/hoogtestandaard.png';
 import hoogteextended from '../media/comp/hoogteextended.png';
-//import hoogtetelescopic from '../media/comp/hoogtetelescopic.png';
+import hoogtetelescopic from '../media/comp/hoogtetelescopic.png';
 import m from '../media/comp/m.png';
 import h from '../media/comp/h.png';
 import s from '../media/comp/s.png';
@@ -57,7 +57,7 @@ const mapImages = {
   mudgardcline, rackcline, norackaline, mudgardtline, 
   noracktline, norackgline, rackgline, rackpline, mudgardpline,
   standaardsaddle, standaardwide, c17, b17, carbonsaddle, 
-  hoogtestandaard, hoogteextended, m, h, s, bronzesky, 
+  hoogtestandaard, hoogteextended, hoogtetelescopic, m, h, s, bronzesky, 
   adventureorange, blastedti, traildustwhite, midnightblackmetalic, 
   blackmatt, glossblacklacquer, boltbluelacquer, forestgreen, 
   lunarice, dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite
