@@ -1,8 +1,4 @@
-//TODO
-//voeg fotos toe
-
 import React, { useState, useEffect } from 'react';
-
 import { bikes } from './data';
 import KeuzenHulp from './KeuzenHulp';
 import JouwBrompton from './JouwBrompton';
@@ -55,125 +51,96 @@ import racinggreen from '../media/comp/racinggreen.png';
 import oceanblue from '../media/comp/oceanblue.png';
 import papyruswhite from '../media/comp/papyruswhite.png';
 
-
 const mapImages = {
-  battery: battery,
-  dynamo: dynamo,
-  reflector: reflector,
-  lezyne: lezyne,
-  buildin: buildin,
-  1: een,
-  2: twee,
-  3: drie,
-  4: vier,
-  6: zes,
-  8: acht,
-  12: twaalf,
-  mudgardcline: mudgardcline,
-  rackcline: rackcline,
-  norackaline: norackaline,
-  mudgardtline: mudgardtline,
-  noracktline: noracktline,
-  norackgline: norackgline,
-  rackgline: rackgline,
-  rackpline: rackpline,
-  mudgardpline: mudgardpline,
-  standaardsaddle: standaardsaddle,
-  standaardwide: standaardwide,
-  c17: c17,
-  b17: b17,
-  carbonsaddle: carbonsaddle,
-  hoogtestandaard: hoogtestandaard,
-  hoogteextended: hoogteextended,
-  //hoogtetelescopic: hoogtetelescopic,
-  m: m,
-  h: h,
-  s: s,
-  bronzesky: bronzesky,
-  adventureorange: adventureorange,
-  blastedti: blastedti,
-  traildustwhite: traildustwhite,
-  midnightblackmetalic: midnightblackmetalic,
-  blackmatt: blackmatt,
-  glossblacklacquer: glossblacklacquer,
-  boltbluelacquer: boltbluelacquer,
-  forestgreen: forestgreen,
-  lunarice: lunarice,
-  dunesand: dunesand,
-  bumblebeeyellow: bumblebeeyellow,
-  racinggreen: racinggreen,
-  oceanblue: oceanblue,
-  papyruswhite: papyruswhite
+  battery, dynamo, reflector, lezyne, buildin, 
+  1: een, 2: twee, 3: drie, 4: vier, 6: zes, 8: acht, 12: twaalf,
+  mudgardcline, rackcline, norackaline, mudgardtline, 
+  noracktline, norackgline, rackgline, rackpline, mudgardpline,
+  standaardsaddle, standaardwide, c17, b17, carbonsaddle, 
+  hoogtestandaard, hoogteextended, m, h, s, bronzesky, 
+  adventureorange, blastedti, traildustwhite, midnightblackmetalic, 
+  blackmatt, glossblacklacquer, boltbluelacquer, forestgreen, 
+  lunarice, dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite
 };
 
 function ComponentPicker(props) {
-  const [items, setItems] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState({
+    zadel: null,
+    zadelHoogte: null,
+    rack: null,
+    stuur: null,
+    verlichting: null,
+    kleur: null,
+    versnelling: null
+  });
+
+  const [componentPrices, setComponentPrices] = useState({
+    zadelPrijs: null,
+    zadelHoogtePrijs: null,
+    rackPrijs: null,
+    stuurPrijs: null,
+    verlichtingPrijs: null,
+    kleurPrijs: null,
+    versnellingPrijs: null
+  });
 
   // Filter de BikeType op basis van het geselecteerde model
   const BikeType = bikes.find(bike => bike.id === props.model);
 
-  useEffect(() => {
-    if (BikeType) {
-      localStorage.setItem('BikeType', props.model);
-      localStorage.setItem('startPrijs', BikeType.startPrijs);  // Sla de startPrijs op
-    }
-  }, [BikeType]);
+  // Key for localStorage based on the selected model
+  const bikeTypeKey = props.model;
 
   function handleClick(e) {
     const category = e.currentTarget.id;
     let item, price;
   
-    // Controleer of het element een afbeelding bevat
     if (e.target.tagName === 'IMG') {
-      item = e.target.alt;  // Gebruik de alt-tekst van de afbeelding
-      price = BikeType[`${category}Prijs`][e.target.dataset.index];  // Verkrijg de bijbehorende prijs
+      item = e.target.alt;
+      price = BikeType[`${category}Prijs`][e.target.dataset.index];
     } else {
-      item = e.target.textContent;  // Gebruik de tekst van de knop
-      price = e.target.dataset.price;  // Verkrijg de prijs uit data attribuut
+      item = e.target.textContent;
+      price = e.target.dataset.price;
     }
   
-    // Update de localStorage en de state
-    localStorage.setItem(category, item);
-    localStorage.setItem(`${category}Prijs`, price);
-    setItems(prevItems => ({ ...prevItems, [category]: item, [`${category}Prijs`]: price }));
+    const newOptions = { ...selectedOptions, [category]: item };
+    setSelectedOptions(newOptions);
+
+    const newPrices = { ...componentPrices, [`${category}Prijs`]: price };
+    setComponentPrices(newPrices);
   
-    // Sla het huidige BikeType op in localStorage (indien nodig)
-    if (BikeType) {
-      localStorage.setItem('BikeType', props.model);
-    }
+    // Sla de geselecteerde opties en prijzen op in localStorage
+    localStorage.setItem(`${bikeTypeKey}_SelectedOptions`, JSON.stringify(newOptions));
+    localStorage.setItem(`${bikeTypeKey}_ComponentPrices`, JSON.stringify(newPrices));
   }
-  
-  // Genereer de lijstitems voor elke categorie
+
   const renderList = (bike, category, prices, map) => (
     <div className='flex justify-around flex-col' key={bike.id}>
       <div className='w-full flex justify-around'>
         {bike[category].map((item, index) => (
-          <button key={item} id={category} onClick={handleClick}>
+          <button key={item} id={category} onClick={handleClick} className="flex flex-col items-center">
             {map ? (
               <img 
                 className='border border-black rounded-full'
                 src={mapImages[item.toLowerCase()]} 
                 alt={item} 
-                data-index={index}  // Voeg het index toe als data attribuut
+                data-index={index} 
               />
             ) : item}
+            <p>€{bike[prices][index]}</p>
           </button>
-        ))}
-      </div>
-      <div className='w-full flex justify-around'>
-        {bike[prices].map((price, index) => (
-          <p 
-            key={price} 
-            id={`${category}Prijs`} 
-            data-price={price}  // Voeg de prijs toe als data attribuut
-            onClick={handleClick}
-          >
-            €{price}
-          </p>
         ))}
       </div>
     </div>
   );
+
+  useEffect(() => {
+    // Haal de geselecteerde opties en prijzen op uit localStorage
+    const storedOptions = JSON.parse(localStorage.getItem(`${bikeTypeKey}_SelectedOptions`)) || {};
+    const storedPrices = JSON.parse(localStorage.getItem(`${bikeTypeKey}_ComponentPrices`)) || {};
+
+    setSelectedOptions(storedOptions);
+    setComponentPrices(storedPrices);
+  }, [bikeTypeKey]);
 
   return (
     <article className='w-full bg-white flex justify-center items-center p-4 flex-col'>
@@ -187,12 +154,9 @@ function ComponentPicker(props) {
         {props.component === 'versnelling' && renderList(BikeType, 'versnelling', 'versnellingPrijs', true)}
       </section>
       <KeuzenHulp model={props.model} component={props.component} />
-      <JouwBrompton />
+      <JouwBrompton model={props.model}/>
     </article>
   );
 }
 
 export default ComponentPicker;
-
-
-
