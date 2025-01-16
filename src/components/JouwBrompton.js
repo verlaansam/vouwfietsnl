@@ -68,6 +68,7 @@ function JouwBrompton(props) {
   const handleEmailSubmit = () => {
     const subject = 'Offerte aanvraag Brompton Fiets';
     const body = `
+      Beste Tromm ik heb intresse in de volgende Brompton, graag ontvang ik een offerte op onderstaande emailadres.
       Fiets opties:
       Model: ${data.model}
       Versnelling: ${data.selectedOptions.versnelling}
@@ -81,9 +82,12 @@ function JouwBrompton(props) {
       
       E-mailadres: ${email}
       Telefoonnummer: ${phone}
+
+      vriendelijke groet,
+      de website
     `;
     
-    const mailtoLink = `mailto:verlaansam@gmail.com,${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:info@tromm.nl,${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
     setShowPopup(false);
   };
