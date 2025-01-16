@@ -1,5 +1,3 @@
-//TODO:
-//foto log koppelen van overlay, zodat foto via props mee kan komen
 import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';

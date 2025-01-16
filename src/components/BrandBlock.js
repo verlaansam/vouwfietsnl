@@ -1,5 +1,3 @@
-//TODO:
-//maken van gallerij
 import React from 'react';
 import BromptonLogo from '../media/brompton-logo.png'
 import TernLogo from '../media/tern-logo.png';

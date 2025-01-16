@@ -12,7 +12,7 @@ function Article(props) {
   return (
     <article className='w-full md:flex md:flex-col md:items-center'>
         <h1 className='font-robotoMono text-2xl flex justify-center p-4 md:text-5xl'>Brompton Builder</h1>
-        <section className='w-full h-full flex flex-col items-center justify-center lg:flex-row lg:w-full lg:overflow-scroll'>
+        <section className='w-full h-full flex flex-col items-center justify-start lg:flex-row lg:w-full lg:overflow-y-scroll'>
           <div className='md:flex md:flex-row '>
             <BuilderBlock photo={Aline} model="ALine" price="1100" sentence1="3 versnellingen" sentence2="zonder poes pas"/>
             <BuilderBlock photo={Tline} model="TLine" price="4950" sentence1="Voledig Titanium" sentence2="zonder poes pas"/>

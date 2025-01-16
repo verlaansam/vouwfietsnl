@@ -14,24 +14,20 @@ function JouwBrompton(props) {
   const [phone, setPhone] = useState('');
 
   const calculatePrice = (componentPrices) => {
-    // Zoek het juiste BikeType op basis van de geselecteerde fiets (props.model)
     const BikeType = bikes.find(bike => bike.id === props.model);
-    // Zorg ervoor dat BikeType gevonden is voordat we verder gaan
-    const startPrijs = BikeType ? BikeType.startPrijs : 0;  // Beginprijs ophalen
-  
-    // Bereken de totalPrice van de componenten zonder de startprijs
+    const startPrijs = BikeType ? BikeType.startPrijs : 0;
+
     const componentTotalPrice = Object.values(componentPrices).reduce(
-      (sum, price) => sum + (parseFloat(price) || 0), // Voeg elke prijs toe
-      0 // Begin de optelling met 0
+      (sum, price) => sum + (parseFloat(price) || 0), 
+      0
     );
   
-    // Voeg de startPrijs toe aan de componentTotalPrice
     const totalPrice = parseInt(componentTotalPrice) + parseInt(startPrijs);
-  
     return totalPrice;
   };
 
   const handleStorage = () => {
+    const model = props.model;
     const selectedOptions = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
     const componentPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
 
@@ -106,31 +102,48 @@ function JouwBrompton(props) {
         <p>Kleur: {data.selectedOptions.kleur}</p>
         <p>Prijs: €{data.prijs}</p>
       </section>
+
       <button 
         onClick={() => setShowPopup(true)} 
-        disabled={!isAllComponentsAvailable()}
-        className={`bg-black text-white shadow-lg w-3/5 max-w-80 h-12 m-2 flex justify-center items-center text-xl font-roboto ${isAllComponentsAvailable() ? 'hover:bg-white hover:text-black hover:border-2 hover:border-black' : ''}`}
+        disabled={!isAllComponentsAvailable()}  
+        className={`bg-black text-white shadow-lg w-3/5 max-w-80 h-12 m-2 flex justify-center items-center text-xl font-roboto ${isAllComponentsAvailable() ? 'hover:bg-white hover:text-black hover:border-2 hover:border-black' : 'bg-gray-400'}`}
       >
-        Offerte aanvragen
+        Meer informatie 
       </button>
+
+      {/* Popup voor gegevens */}
       {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Voer je gegevens in:</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">Voer je gegevens in:</h2>
             <input 
               type="email" 
               placeholder="E-mailadres" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
+              className="border p-2 w-full mb-4 rounded"
             />
             <input 
               type="tel" 
               placeholder="Telefoonnummer" 
               value={phone} 
               onChange={(e) => setPhone(e.target.value)} 
+              className="border p-2 w-full mb-4 rounded"
             />
-            <button onClick={handleEmailSubmit}>Verstuur Offerte</button>
-            <button onClick={() => setShowPopup(false)}>Annuleren</button>
+            <div className="flex justify-between">
+              <button 
+                onClick={handleEmailSubmit} 
+                className="bg-black text-white p-2 rounded hover:bg-white hover:text-black hover:border-2 hover:border-black w-2/5"
+              >
+                Verstuur Offerte
+              </button>
+              <button 
+                onClick={() => setShowPopup(false)} 
+                className="bg-white border-black border-2 text-black p-2 rounded hover:bg-black hover:text-white hover:border-2 hover:border-black w-2/5"
+              >
+                Annuleren
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -139,3 +152,5 @@ function JouwBrompton(props) {
 }
 
 export default JouwBrompton;
+
+
