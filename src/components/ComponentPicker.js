@@ -1,99 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { bikes } from './data';
 import KeuzenHulp from './KeuzenHulp';
 import JouwBrompton from './JouwBrompton';
-
-import battery from '../media/comp/battery.png';
-import dynamo from '../media/comp/dynamo.png';
-import reflector from '../media/comp/reflector.png';
-import lezyne from '../media/comp/lezyne.png';
-import buildin from '../media/comp/buildin.png';
-import een from '../media/comp/1.png';
-import twee from '../media/comp/2.png';
-import drie from '../media/comp/3.png';
-import vier from '../media/comp/4.png';
-import zes from '../media/comp/6.png';
-import acht from '../media/comp/8.png';
-import twaalf from '../media/comp/12.png';
-import mudgardcline from '../media/comp/mudgardcline.png';
-import rackcline from '../media/comp/rackcline.png';
-import norackaline from '../media/comp/norackaline.png'; 
-import mudgardtline from '../media/comp/mudgardtline.png';
-import noracktline from '../media/comp/noracktline.png';
-import norackgline from '../media/comp/norackgline.png';
-import rackgline from '../media/comp/rackgline.png';
-import rackpline from '../media/comp/rackpline.png';
-import mudgardpline from '../media/comp/mudgardpline.png';
-import standaardsaddle from '../media/comp/standaardsaddle.png';
-import standaardwide from '../media/comp/standaardsaddle.png';
-import c17 from '../media/comp/c17.png';
-import b17 from '../media/comp/b17.png';
-import carbonsaddle from '../media/comp/carbonsaddle.png';
-import hoogtestandaard from '../media/comp/hoogtestandaard.png';
-import hoogteextended from '../media/comp/hoogteextended.png';
-import hoogtetelescopic from '../media/comp/hoogtetelescopic.png';
-import m from '../media/comp/m.png';
-import h from '../media/comp/h.png';
-import s from '../media/comp/s.png';
-import bronzesky from '../media/comp/bronzesky.png';
-import adventureorange from '../media/comp/adventureorange.png';
-import blastedti from '../media/comp/blastedti.png';
-import traildustwhite from '../media/comp/traildustwhite.png';
-import midnightblackmetalic from '../media/comp/midnightblackmetalic.png';
-import blackmatt from '../media/comp/blackmatt.png';
-import glossblacklacquer from '../media/comp/glossblacklacquer.png';
-import boltbluelacquer from '../media/comp/boltbluelacquer.png';
-import forestgreen from '../media/comp/forestgreen.png';
-import lunarice from '../media/comp/lunarice.png';
-import dunesand from '../media/comp/dunesand.png';
-import bumblebeeyellow from '../media/comp/bumblebeeyellow.png';
-import racinggreen from '../media/comp/racinggreen.png';
-import oceanblue from '../media/comp/oceanblue.png';
-import papyruswhite from '../media/comp/papyruswhite.png';
-
-const mapImages = {
-  battery, dynamo, reflector, lezyne, buildin, 
-  1: een, 2: twee, 3: drie, 4: vier, 6: zes, 8: acht, 12: twaalf,
-  mudgardcline, rackcline, norackaline, mudgardtline, 
-  noracktline, norackgline, rackgline, rackpline, mudgardpline,
-  standaardsaddle, standaardwide, c17, b17, carbonsaddle, 
-  hoogtestandaard, hoogteextended, hoogtetelescopic, m, h, s, bronzesky, 
-  adventureorange, blastedti, traildustwhite, midnightblackmetalic, 
-  blackmatt, glossblacklacquer, boltbluelacquer, forestgreen, 
-  lunarice, dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite
-};
+import mapImages from './MapImages';
 
 function ComponentPicker(props) {
-  const [selectedOptions, setSelectedOptions] = useState({
-    zadel: null,
-    zadelHoogte: null,
-    rack: null,
-    stuur: null,
-    verlichting: null,
-    kleur: null,
-    versnelling: null
-  });
-
-  const [componentPrices, setComponentPrices] = useState({
-    zadelPrijs: null,
-    zadelHoogtePrijs: null,
-    rackPrijs: null,
-    stuurPrijs: null,
-    verlichtingPrijs: null,
-    kleurPrijs: null,
-    versnellingPrijs: null
-  });
-
-  // Filter de BikeType op basis van het geselecteerde model
+  const { selectedOptions, setSelectedOptions } = props;
   const BikeType = bikes.find(bike => bike.id === props.model);
-
-  // Key for localStorage based on the selected model
   const bikeTypeKey = props.model;
 
   function handleClick(e) {
     const category = e.currentTarget.id;
     let item, price;
-  
+
     if (e.target.tagName === 'IMG') {
       item = e.target.alt;
       price = BikeType[`${category}Prijs`][e.target.dataset.index];
@@ -101,46 +20,67 @@ function ComponentPicker(props) {
       item = e.target.textContent;
       price = e.target.dataset.price;
     }
-  
-    const newOptions = { ...selectedOptions, [category]: item };
-    setSelectedOptions(newOptions);
 
-    const newPrices = { ...componentPrices, [`${category}Prijs`]: price };
-    setComponentPrices(newPrices);
-  
-    // Sla de geselecteerde opties en prijzen op in localStorage
+    // Als dit item al geselecteerd is → deselecteren
+    const alreadySelected = selectedOptions[category] === item;
+    const newOptions = { ...selectedOptions };
+
+    if (alreadySelected) {
+      delete newOptions[category]; // deselect
+    } else {
+      newOptions[category] = item; // select
+    }
+
+    setSelectedOptions(newOptions);
     localStorage.setItem(`${bikeTypeKey}_SelectedOptions`, JSON.stringify(newOptions));
-    localStorage.setItem(`${bikeTypeKey}_ComponentPrices`, JSON.stringify(newPrices));
   }
 
-  const renderList = (bike, category, prices, map) => (
-    <div className='flex justify-around flex-col' key={bike.id}>
-      <div className='w-full flex justify-around'>
-        {bike[category].map((item, index) => (
-          <button key={item} id={category} onClick={handleClick} className="flex flex-col items-center">
-            {map ? (
-              <img 
-                className='border border-black rounded-full'
-                src={mapImages[item.toLowerCase()]} 
-                alt={item} 
-                data-index={index} 
-              />
-            ) : item}
-            <p>€{bike[prices][index]}</p>
-          </button>
-        ))}
+    const renderList = (bike, category, prices, showImages) => (
+      <div className='w-full' key={bike.id}>
+        {/* raster met 3 kolommen op mobiel, 4+ op brede schermen */}
+        <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 place-items-center'>
+          {bike[category].map((item, index) => {
+            const isSelected = selectedOptions?.[category] === item;
+            const imgKey = item?.toLowerCase?.();
+
+            return (
+              <button
+                key={item}
+                id={category}
+                onClick={handleClick}
+                className="relative flex flex-col items-center"
+              >
+                {showImages && (
+                  <div className="relative">
+                    <img
+                      className={`w-16 h-16 sm:w-20 sm:h-20 object-contain border rounded-full transition-all duration-200 ${
+                        isSelected ? 'border-green-500 ring-2 ring-green-400' : 'border-black'
+                      }`}
+                      src={mapImages[imgKey] || mapImages[item] || ''}
+                      alt={item}
+                      data-index={index}
+                    />
+                    {isSelected && (
+                      <div className="pointer-events-none absolute inset-0 bg-green-500 bg-opacity-40 flex justify-center items-center rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <p className='text-xs mt-1'>€{bike[prices][index]}</p>
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
 
   useEffect(() => {
-    // Haal de geselecteerde opties en prijzen op uit localStorage
     const storedOptions = JSON.parse(localStorage.getItem(`${bikeTypeKey}_SelectedOptions`)) || {};
-    const storedPrices = JSON.parse(localStorage.getItem(`${bikeTypeKey}_ComponentPrices`)) || {};
-
     setSelectedOptions(storedOptions);
-    setComponentPrices(storedPrices);
-  }, [bikeTypeKey]);
+  }, [bikeTypeKey, setSelectedOptions]);
 
   return (
     <article className='w-full bg-white flex justify-center items-center p-4 flex-col'>
@@ -160,3 +100,4 @@ function ComponentPicker(props) {
 }
 
 export default ComponentPicker;
+

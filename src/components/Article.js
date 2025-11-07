@@ -1,11 +1,11 @@
 import React from 'react';
 import BuilderBlock from './BuilderBlock';
 
-import Aline from '../media/AlineBuilder.png';
-import Gline from '../media/GlineBuilder.png';
-import Cline from '../media/ClineBuilder.png';
-import Pline from '../media/PlineBuilder.png';
-import Tline from '../media/TlineBuilder.png';
+import Aline from '../media/AlineSelecter.png';
+import Gline from '../media/GlineSelecter.png';
+import Cline from '../media/ClineSelecter.png';
+import Pline from '../media/PlineSelecter.png';
+import Tline from '../media/TlineSelecter.png';
 
 
 function Article(props) {

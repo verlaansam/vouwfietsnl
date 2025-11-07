@@ -12,6 +12,7 @@ function JouwBrompton(props) {
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [highlightedField, setHighlightedField] = useState(null); // ✅ Nieuw
 
   const calculatePrice = (componentPrices) => {
     const BikeType = bikes.find(bike => bike.id === props.model);
@@ -21,27 +22,41 @@ function JouwBrompton(props) {
       (sum, price) => sum + (parseFloat(price) || 0), 
       0
     );
-  
-    const totalPrice = parseInt(componentTotalPrice) + parseInt(startPrijs);
-    return totalPrice;
+
+    return parseInt(componentTotalPrice) + parseInt(startPrijs);
   };
 
   const handleStorage = () => {
     const model = props.model;
-    const selectedOptions = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
-    const componentPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
+    const nextSelected = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
+    const nextPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
+
+    // vorige staat uit React-state
+    const prevSelected = data.selectedOptions || {};
+
+    // bepaal exact welke keys verschillen (volgorde-onafhankelijk)
+    const allKeys = Array.from(new Set([...Object.keys(prevSelected), ...Object.keys(nextSelected)]));
+    const changedKeys = allKeys.filter((k) => prevSelected[k] !== nextSelected[k]);
 
     setData({
       model,
-      selectedOptions,
-      componentPrices,
-      prijs: calculatePrice(componentPrices),
+      selectedOptions: nextSelected,
+      componentPrices: nextPrices,
+      prijs: calculatePrice(nextPrices),
     });
+
+    // highlight alleen bij één duidelijke wijziging
+    if (changedKeys.length === 1) {
+      setHighlightedField(changedKeys[0]);
+      setTimeout(() => setHighlightedField(null), 600);
+    } else {
+      // geen of meerdere wijzigingen: niet highlighten
+      setHighlightedField(null);
+    }
   };
 
   useEffect(() => {
     handleStorage();
-
     window.addEventListener('storage', handleStorage);
     document.addEventListener('click', handleStorage);
 
@@ -86,33 +101,42 @@ function JouwBrompton(props) {
       vriendelijke groet,
       de website
     `;
-    
+
     const mailtoLink = `mailto:info@tromm.nl,${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
     setShowPopup(false);
   };
 
+  const highlightClass = (field) =>
+    highlightedField === field
+      ? 'bg-green-200 transition-all duration-300'
+      : 'transition-all duration-300';
+
   return (
-    <article className='w-10/12 border flex justify-center items-center flex-col p-1'>
-      <h1 className='font-roboto text-2xl m-2'>Jouw Brompton</h1>
-      <section className='w-4/5 border border-black p-1'>
-        <p>Type: {data.model}</p>
-        <p>Versnelling: {data.selectedOptions.versnelling}</p>
-        <p>Rack: {data.selectedOptions.rack}</p>
-        <p>Verlichting: {data.selectedOptions.verlichting}</p>
-        <p>Zadel: {data.selectedOptions.zadel}</p>
-        <p>Zadelhoogte: {data.selectedOptions.zadelHoogte}</p>
-        <p>Stuur: {data.selectedOptions.stuur}</p>
-        <p>Kleur: {data.selectedOptions.kleur}</p>
-        <p>Prijs: €{data.prijs}</p>
+    <article className="w-10/12 border flex justify-center items-center flex-col p-1">
+      <h1 className="font-roboto text-2xl m-2">Jouw Brompton</h1>
+      <section className="w-4/5 border border-black p-1">
+        <p className={highlightClass('model')}>Type: {data.model}</p>
+        <p className={highlightClass('versnelling')}>Versnelling: {data.selectedOptions.versnelling}</p>
+        <p className={highlightClass('rack')}>Rack: {data.selectedOptions.rack}</p>
+        <p className={highlightClass('verlichting')}>Verlichting: {data.selectedOptions.verlichting}</p>
+        <p className={highlightClass('zadel')}>Zadel: {data.selectedOptions.zadel}</p>
+        <p className={highlightClass('zadelHoogte')}>Zadelhoogte: {data.selectedOptions.zadelHoogte}</p>
+        <p className={highlightClass('stuur')}>Stuur: {data.selectedOptions.stuur}</p>
+        <p className={highlightClass('kleur')}>Kleur: {data.selectedOptions.kleur}</p>
+        <p className={highlightClass('prijs')}>Prijs: €{data.prijs}</p>
       </section>
 
-      <button 
-        onClick={() => setShowPopup(true)} 
-        disabled={!isAllComponentsAvailable()}  
-        className={`bg-black text-white shadow-lg w-3/5 max-w-80 h-12 m-2 flex justify-center items-center text-xl font-roboto ${isAllComponentsAvailable() ? 'hover:bg-white hover:text-black hover:border-2 hover:border-black' : 'bg-gray-400'}`}
+      <button
+        onClick={() => setShowPopup(true)}
+        disabled={!isAllComponentsAvailable()}
+        className={`bg-black text-white shadow-lg w-3/5 max-w-80 h-12 m-2 flex justify-center items-center text-xl font-roboto ${
+          isAllComponentsAvailable()
+            ? 'hover:bg-white hover:text-black hover:border-2 hover:border-black'
+            : 'bg-gray-400'
+        }`}
       >
-        Meer informatie 
+        Meer informatie
       </button>
 
       {/* Popup voor gegevens */}
@@ -120,29 +144,29 @@ function JouwBrompton(props) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
             <h2 className="text-2xl font-bold mb-4">Voer je gegevens in:</h2>
-            <input 
-              type="email" 
-              placeholder="E-mailadres" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+            <input
+              type="email"
+              placeholder="E-mailadres"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="border p-2 w-full mb-4 rounded"
             />
-            <input 
-              type="tel" 
-              placeholder="Telefoonnummer" 
-              value={phone} 
-              onChange={(e) => setPhone(e.target.value)} 
+            <input
+              type="tel"
+              placeholder="Telefoonnummer"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="border p-2 w-full mb-4 rounded"
             />
             <div className="flex justify-between">
-              <button 
-                onClick={handleEmailSubmit} 
+              <button
+                onClick={handleEmailSubmit}
                 className="bg-black text-white p-2 rounded hover:bg-white hover:text-black hover:border-2 hover:border-black w-2/5"
               >
                 Verstuur Offerte
               </button>
-              <button 
-                onClick={() => setShowPopup(false)} 
+              <button
+                onClick={() => setShowPopup(false)}
                 className="bg-white border-black border-2 text-black p-2 rounded hover:bg-black hover:text-white hover:border-2 hover:border-black w-2/5"
               >
                 Annuleren
@@ -156,5 +180,6 @@ function JouwBrompton(props) {
 }
 
 export default JouwBrompton;
+
 
 
