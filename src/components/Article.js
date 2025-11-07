@@ -19,11 +19,11 @@ function Article(props) {
             
           </div>
           <div className='md:flex md:flex-row'>
-            <BuilderBlock hasElectric photo={Cline} model="CLine" price="1599" sentence1="Meest modulair met" sentence2="optie tot electrisch"/>
-            <BuilderBlock hasElectric photo={Pline} model="PLine" price="2890" sentence1="Licht gewicht met" sentence2="titanium accenten"/>
+            <BuilderBlock hasElectric photo={Cline} model="CLine" price="1699" sentence1="Meest modulair met" sentence2="optie tot electrisch"/>
+            <BuilderBlock hasElectric photo={Pline} model="PLine" price="2824" sentence1="Licht gewicht met" sentence2="titanium accenten"/>
           </div>
           <div className='md:flex md:flex-row'>
-            <BuilderBlock hasElectric photo={Gline} model="GLine" price="2849" sentence1="All terain met" sentence2='grote 20" banden'/>
+            <BuilderBlock hasElectric photo={Gline} model="GLine" price="2999" sentence1="All terain met" sentence2='grote 20" banden'/>
           </div> 
         </section>
     </article>
