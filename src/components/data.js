@@ -30,7 +30,7 @@ export const bikes = [{
     zadelHoogtePrijs: [0,0,71],
     verlichting: ['reflector','battery','dynamo'],
     verlichtingPrijs: [0,100,180],
-    kleur: ['amethyst laquer','metallic blue', 'dunesand', 'palm green', 'plum red', 'black'], 
+    kleur: ['amethystlaquer','metallicblue', 'dunesand', 'palmgreen', 'plumred', 'black'], 
     kleurPrijs: [265,135,0,0,0,0],
 },{
     id: 'CLineElectric',
@@ -47,7 +47,7 @@ export const bikes = [{
     zadelHoogtePrijs: [0,0,42.54],
     verlichting: ['buildin'],
     verlichtingPrijs: [0],
-    kleur: ['amethyst laquer','metallic blue', 'dunesand', 'palm green', 'plum red', 'black'],
+    kleur: ['amethystlaquer','metallicblue', 'dunesand', 'palmgreen', 'plumred', 'black'],
     kleurPrijs: [265,0,0,0,0,0],
 },{
     id: 'TLine',
@@ -81,7 +81,7 @@ export const bikes = [{
     zadelHoogtePrijs: [0,0,71],
     verlichting: ['reflector','battery'],
     verlichtingPrijs: [0,100],
-    kleur: ['amethyst laquer','lunarice','midnightblack'], 
+    kleur: ['amethystlaquer','lunarice','midnightblack'], 
     kleurPrijs: [265,0,0],
 },{
     id: 'PLineElectric',
@@ -98,7 +98,7 @@ export const bikes = [{
     zadelHoogtePrijs: [0,0,71],
     verlichting: ['buildin'],
     verlichtingPrijs: [0],
-    kleur: ['pacific laquer','amethyst laquer','plum red','palm green','cloud metallic', 'dunesand', 'black'], 
+    kleur: ['pacificlaquer','amethystlaquer','plumred','palmgreen','cloudmetallic', 'dunesand', 'black'], 
     kleurPrijs: [265,265,0,0,0,0,0],
 },{
     id: 'GLine',

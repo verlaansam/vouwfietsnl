@@ -70,6 +70,12 @@ import bumblebeeyellow from '../media/comp/bumblebeeyellow.png';
 import racinggreen from '../media/comp/racinggreen.png';
 import oceanblue from '../media/comp/oceanblue.png';
 import papyruswhite from '../media/comp/papyruswhite.png';
+import amethystlaquer from '../media/comp/amethystlaquer.png'
+import black from '../media/comp/black.png'
+import metallicblue from '../media/comp/metallicblue.png'
+import midnightblack from '../media/comp/midnightblack.png'
+import palmgreen from '../media/comp/palmgreen.png'
+import plumred from '../media/comp/plumred.png'
 
 // alle mappings
 const mapImages = {
@@ -102,7 +108,7 @@ const mapImages = {
   m, h, s,
   bronzesky, adventureorange, blastedti, traildustwhite, midnightblackmetalic,
   blackmatt, glossblacklacquer, boltbluelacquer, forestgreen, lunarice,
-  dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite
+  dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite, plumred, palmgreen, midnightblack, metallicblue, black, amethystlaquer
 };
 
 export default mapImages;
