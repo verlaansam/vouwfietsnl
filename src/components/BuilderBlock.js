@@ -1,16 +1,55 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Exclude from '../media/Exclude.png';
 import ComponentPicker from './ComponentPicker';
-import mapImages from './MapImages'; // ✅ alle afbeeldingen komen nu hiervandaan
+import mapImages from './MapImages';
 
 function BuilderBlock(props) {
   const [visibleModel, setVisibleModel] = useState(null);
   const [showMore, setShowMore] = useState(true);
   const [component, setComponent] = useState('kleur');
   const [selectedOptions, setSelectedOptions] = useState({});
-  const ref = useRef(null);
 
-  // Zodra een model zichtbaar wordt → reset naar 'kleur'
+  // ⭐ Perfecte open/close slide animatie
+  const [maxHeight, setMaxHeight] = useState("0px");
+  const pickerRef = useRef(null);
+
+  /**
+   * ⭐ 3-Fase animatie (ALTIJD WORKING)
+   * - bij open: 0px → echte height → auto
+   * - bij sluit: echte height → 0px
+   */
+  useEffect(() => {
+    const el = pickerRef.current;
+    if (!el) return;
+
+    if (showMore) {
+      // 1) Start altijd op 0 → zodat de animatie *altijd* opnieuw begint
+      setMaxHeight("0px");
+
+      // 2) Volgende frame → animeren naar echte hoogte
+      requestAnimationFrame(() => {
+        const realHeight = el.scrollHeight + "px";
+        setMaxHeight(realHeight);
+
+        // 3) Na de animatie → auto zodat dynamische content goed blijft
+        setTimeout(() => {
+          setMaxHeight("auto");
+        }, 700); // zelfde als duration-700
+      });
+
+    } else {
+      // SLUITEN
+      // 1) Lock huidige hoogte
+      const current = el.scrollHeight + "px";
+      setMaxHeight(current);
+
+      // 2) Volgende frame → naar 0px animeren
+      requestAnimationFrame(() => {
+        setMaxHeight("0px");
+      });
+    }
+  }, [showMore, component, visibleModel]);
+
   useEffect(() => {
     if (visibleModel) {
       setComponent('kleur');
@@ -28,9 +67,7 @@ function BuilderBlock(props) {
     }
   };
 
-  // ✅ Geen lokale imports meer — gebruik mapImages
   const getModelImage = (model) => {
-    // fallback naar standaard model als Electric niet bestaat
     return mapImages[`${model}`] || mapImages[`${model}Selecter`] || null;
   };
 
@@ -45,7 +82,6 @@ function BuilderBlock(props) {
     }
   };
 
-  // Helper: maakt knop met vinkje als geselecteerd
   const renderButton = (id, style) => {
     const isSelected = !!selectedOptions?.[id];
     return (
@@ -81,10 +117,11 @@ function BuilderBlock(props) {
         src={
           getModelImage(visibleModel) ||
           getModelImage(props.model) ||
-          mapImages['PLineSelecter'] // fallback als laatste redmiddel
+          mapImages['PLineSelecter']
         }
         alt={props.model}
       />
+
       <section className="w-full flex flex-col items-center">
         <h2 className="font-roboto text-4xl pt-8">
           <b>{props.model}</b>
@@ -95,7 +132,6 @@ function BuilderBlock(props) {
           <b>Vanaf €{props.price}</b>
         </h4>
 
-        {/* Toggle-knoppen */}
         <div className="flex flex-col items-center mt-4">
           <button
             onClick={() => toggleModel(props.model)}
@@ -114,10 +150,10 @@ function BuilderBlock(props) {
           )}
         </div>
 
-        {/* Fiets + ComponentPicker */}
         {(visibleModel === props.model || visibleModel === `${props.model}Electric`) && (
           <div className="w-full mt-4">
             <article className="w-[360px] flex flex-col items-center">
+              
               <div className="relative w-full aspect-[4/3]">
                 <img
                   className="w-full h-full object-cover absolute top-0 left-0"
@@ -139,9 +175,16 @@ function BuilderBlock(props) {
                 {renderButton('zadelHoogte', 'w-9 h-9 top-[88px] left-[100px]')}
               </div>
 
-              {/* ComponentPicker standaard open met ‘kleur’ */}
-              {showMore && (
-                <div className="w-full mt-4 transition-all duration-300">
+              {/* ⭐ Perfecte slide-down + slide-up animatie */}
+              <div
+                className="overflow-hidden transition-all duration-700 ease-in-out"
+                style={{
+                  maxHeight: maxHeight,
+                  opacity: showMore ? 1 : 0,
+                  marginTop: showMore ? "16px" : "0px"
+                }}
+              >
+                <div ref={pickerRef}>
                   <ComponentPicker
                     model={visibleModel}
                     component={component}
@@ -149,7 +192,8 @@ function BuilderBlock(props) {
                     setSelectedOptions={setSelectedOptions}
                   />
                 </div>
-              )}
+              </div>
+
             </article>
           </div>
         )}
@@ -159,5 +203,3 @@ function BuilderBlock(props) {
 }
 
 export default BuilderBlock;
-
-
