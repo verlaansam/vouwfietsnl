@@ -143,7 +143,7 @@ function BuilderBlock(props) {
               {showMore && (
                 <div className="w-full mt-4 transition-all duration-300">
                   <ComponentPicker
-                    model={props.model}
+                    model={visibleModel}
                     component={component}
                     selectedOptions={selectedOptions}
                     setSelectedOptions={setSelectedOptions}

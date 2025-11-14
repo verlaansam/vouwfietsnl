@@ -25,7 +25,7 @@ function JouwBrompton(props) {
 
     return parseInt(componentTotalPrice) + parseInt(startPrijs);
   };
-
+ 
   const handleStorage = () => {
     const model = props.model;
     const nextSelected = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};

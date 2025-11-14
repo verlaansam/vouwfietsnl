@@ -7,8 +7,9 @@ import ClineSelecter from '../media/ClineSelecter.png';
 import GlineSelecter from '../media/GlineSelecter.png';
 import PlineSelecter from '../media/PlineSelecter.png';
 import ClineElectricSelecter from '../media/ClineElectricSelecter.png';
-import GlineElectricSelecter from '../media/GlineSelecter.png'; // ✅ was eerder fout
+import GlineElectricSelecter from '../media/GlineSelecter.png';
 import PlineElectricSelecter from '../media/PlineElectricSelecter.png';
+import TlineElectricSelecter from '../media/TlineElectricSelecter.png';
 
 // verlichting
 import battery from '../media/comp/battery.png';
@@ -72,10 +73,12 @@ import oceanblue from '../media/comp/oceanblue.png';
 import papyruswhite from '../media/comp/papyruswhite.png';
 import amethystlaquer from '../media/comp/amethystlaquer.png'
 import black from '../media/comp/black.png'
-import metallicblue from '../media/comp/metallicblue.png'
 import midnightblack from '../media/comp/midnightblack.png'
 import palmgreen from '../media/comp/palmgreen.png'
 import plumred from '../media/comp/plumred.png'
+import spaceblack from '../media/comp/spaceblack.png'
+import cloudmetallic from '../media/comp/cloudmetallic.png'
+import pacificlaquer from '../media/comp/pacificlaquer.png'
 
 // alle mappings
 const mapImages = {
@@ -88,6 +91,7 @@ const mapImages = {
   CLineElectric: ClineElectricSelecter,
   GLineElectric: GlineElectricSelecter,
   PLineElectric: PlineElectricSelecter,
+  TLineElectric: TlineElectricSelecter,
 
   ALineSelecter: AlineSelecter,
   TLineSelecter: TlineSelecter,
@@ -97,6 +101,7 @@ const mapImages = {
   CLineElectricSelecter: ClineElectricSelecter,
   GLineElectricSelecter: GlineElectricSelecter,
   PLineElectricSelecter: PlineElectricSelecter,
+  TLineElectricSelecter: TlineElectricSelecter,
 
   // component-afbeeldingen
   battery, dynamo, reflector, lezyne, buildin,
@@ -108,7 +113,8 @@ const mapImages = {
   m, h, s,
   bronzesky, adventureorange, blastedti, traildustwhite, midnightblackmetalic,
   blackmatt, glossblacklacquer, boltbluelacquer, forestgreen, lunarice,
-  dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite, plumred, palmgreen, midnightblack, metallicblue, black, amethystlaquer
+  dunesand, bumblebeeyellow, racinggreen, oceanblue, papyruswhite, plumred,
+  palmgreen, midnightblack, cloudmetallic, black, amethystlaquer, spaceblack, pacificlaquer
 };
 
 export default mapImages;

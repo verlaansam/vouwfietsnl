@@ -39,6 +39,16 @@ export const keuzenData = [{
     verlichting: 'De TLine is verkrijgbaar met reflector of batterij verlichting.',
     kleur: 'De Tline is verkrijgbaar in blasted Ti.',
     },{
+    id: 'TLineElectric',
+    default: 'De TLine is een sportieve voledig titanium vouwfiets met 1 of 4 versnellingen. En weegt nog geen 8kg.',
+    versnelling: 'De TLine is verkrijgbaar met 1, of 4 versnellingen. 1 versnelling is de ligt gewicht optie. met 4 versnellingen voor de stad of langere afstanden.',
+    zadel: 'De TLine is verkrijgbaar met een super light carbon zadel. dit zadel is licht en comfortabel.',
+    zadelHoogte: 'De TLine is verkrijgbaar met 3 verschillende zadel hoogtes. extended is 5 cm hoger en telescopic is 10 cm hoger.',
+    rack: 'De TLine komt met en zonder spatborden.',
+    stuur: 'De TLine is verkrijgbaar met 2 type sturen. een m of s stuur.',
+    verlichting: 'De TLine is verkrijgbaar met reflector of batterij verlichting.',
+    kleur: 'De Tline is verkrijgbaar in blasted Ti.',
+    },{
     id: 'PLine',
     default: 'De Pline is een deels titanium vouwfiets met optie tot elektrisch. De fiets is verkrijgbaar in 4 kleuren.',
     versnelling: 'De PLine is verkrijgbaar met 2 of 12 versnellingen. 2 versnellingen is ideal voor in de stad en 12 versnellingen voor langere afstanden.',
