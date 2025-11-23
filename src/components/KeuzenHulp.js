@@ -22,7 +22,7 @@ function KeuzenHulp(props) {
   return (
     <article className='w-full bg-white flex justify-center items-center p-4'>
       <section className='w-11/12 border border-black p-1'>
-        <article className='font-robotoMono text-sm'><b>KeuzenHulp: </b>
+        <article className='font-robotoMono text-sm lg:text-lg'><b>KeuzenHulp: </b>
           {props.component === 'versnelling' && renderListItems('versnelling')}
           {props.component === 'rack' && renderListItems('rack')}
           {props.component === 'verlichting' && renderListItems('verlichting')}

@@ -7,12 +7,14 @@ import mapImages from "./MapImages";
 function ComponentPicker({ model, component, selectedOptions, setSelectedOptions }) {
   const BikeType = bikes.find((bike) => bike.id === model);
   const storageKey = `${model}_SelectedOptions`;
+  const priceStorageKey = `${model}_ComponentPrices`;
 
   // ---------------------------------------------------------------------------
   // 🧹 CLEANER: localStorage automatisch opschonen & toepassen
   // ---------------------------------------------------------------------------
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const savedPrices = JSON.parse(localStorage.getItem(priceStorageKey) || "{}");
 
     // verwijder keys die niet meer bestaan in data.js → voorkomt bugs
     const cleaned = Object.fromEntries(
@@ -23,6 +25,7 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
 
     setSelectedOptions(cleaned);
     localStorage.setItem(storageKey, JSON.stringify(cleaned));
+    localStorage.setItem(priceStorageKey, JSON.stringify(savedPrices));
   }, [model]);
 
   // ---------------------------------------------------------------------------
@@ -47,6 +50,8 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
 
     const alreadySelected = selectedOptions[category] === item;
 
+    const currentPrices = JSON.parse(localStorage.getItem(priceStorageKey) || "{}");
+
     const updated = {
       ...selectedOptions,
       [category]: alreadySelected ? undefined : item,
@@ -54,8 +59,17 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
 
     if (alreadySelected) delete updated[category];
 
+    const updatedPrices = { ...currentPrices };
+    if (alreadySelected) {
+      delete updatedPrices[category];
+    } else {
+      updatedPrices[category] = price;
+    }
+
     setSelectedOptions(updated);
     localStorage.setItem(storageKey, JSON.stringify(updated));
+    localStorage.setItem(priceStorageKey, JSON.stringify(updatedPrices));
+    window.dispatchEvent(new Event("builder-updated"));
   }
 
   // ---------------------------------------------------------------------------
@@ -69,7 +83,7 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
 
     return (
       <div className="w-full">
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 place-items-center">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 gap-4 place-items-center">
           {items.map((item, index) => {
             const isSelected = selectedOptions?.[category] === item;
             const imgKey = item?.toLowerCase?.();
@@ -86,7 +100,7 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
                 {showImages && (
                   <div className="relative">
                     <img
-                      className={`w-16 h-16 sm:w-20 sm:h-20 object-contain border rounded-full transition-all duration-200 ${
+                      className={`w-16 h-16 object-contain border rounded-full transition-all duration-200 ${
                         isSelected
                           ? "border-green-500 ring-2 ring-green-400"
                           : "border-black"
@@ -142,8 +156,8 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
   const mapping = componentsMap[component];
 
   return (
-    <article className="w-full bg-white flex justify-center items-center p-4 flex-col">
-      <section className="w-4/5 border border-black p-1">
+    <article className="w-full bg-white flex justify-center items-start p-4 flex-col 2xl:flex-row 2xl:gap-6">
+      <section className="w-full 2xl:w-2/5 border border-black p-1">
         {mapping ? (
           renderList(component, mapping[0], mapping[1])
         ) : (
@@ -151,8 +165,15 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
         )}
       </section>
 
-      <KeuzenHulp model={model} component={component} />
-      <JouwBrompton model={model} />
+      <div className="w-full 2xl:w-4/5 flex flex-col 2xl:flex-row items-center 2xl:items-start gap-4">
+        <div className="w-full 2xl:w-4/5 flex justify-center">
+          <JouwBrompton model={model} />
+        </div>
+        <div className="w-full 2xl:w-1/2">
+          <KeuzenHulp model={model} component={component} />
+        </div>
+        
+      </div>
     </article>
   );
 }

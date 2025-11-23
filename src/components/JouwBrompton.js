@@ -58,10 +58,12 @@ function JouwBrompton(props) {
   useEffect(() => {
     handleStorage();
     window.addEventListener('storage', handleStorage);
+    window.addEventListener('builder-updated', handleStorage);
     document.addEventListener('click', handleStorage);
 
     return () => {
       window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('builder-updated', handleStorage);
       document.removeEventListener('click', handleStorage);
     };
   }, []);
@@ -113,8 +115,8 @@ function JouwBrompton(props) {
       : 'transition-all duration-300';
 
   return (
-    <article className="w-10/12 border flex justify-center items-center flex-col p-1">
-      <h1 className="font-roboto text-2xl m-2">Jouw Brompton</h1>
+    <article className="w-10/12 border flex justify-center items-center flex-col p-1 lg:border-none">
+      <h1 className="font-roboto text-2xl m-2 lg:hidden">Jouw Brompton</h1>
       <section className="w-4/5 border border-black p-1">
         <p className={highlightClass('model')}>Type: {data.model}</p>
         <p className={highlightClass('versnelling')}>Versnelling: {data.selectedOptions.versnelling}</p>
@@ -180,6 +182,5 @@ function JouwBrompton(props) {
 }
 
 export default JouwBrompton;
-
 
 
