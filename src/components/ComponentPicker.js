@@ -9,14 +9,10 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
   const storageKey = `${model}_SelectedOptions`;
   const priceStorageKey = `${model}_ComponentPrices`;
 
-  // ---------------------------------------------------------------------------
-  // 🧹 CLEANER: localStorage automatisch opschonen & toepassen
-  // ---------------------------------------------------------------------------
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
     const savedPrices = JSON.parse(localStorage.getItem(priceStorageKey) || "{}");
 
-    // verwijder keys die niet meer bestaan in data.js → voorkomt bugs
     const cleaned = Object.fromEntries(
       Object.entries(saved).filter(([category, item]) =>
         BikeType?.[category]?.includes(item)
@@ -28,9 +24,6 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
     localStorage.setItem(priceStorageKey, JSON.stringify(savedPrices));
   }, [model]);
 
-  // ---------------------------------------------------------------------------
-  // 🖱️ CLICK HANDLER
-  // ---------------------------------------------------------------------------
   function handleClick(e) {
     const category = e.currentTarget.id;
     let item = null;
@@ -72,9 +65,6 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
     window.dispatchEvent(new Event("builder-updated"));
   }
 
-  // ---------------------------------------------------------------------------
-  // 🧩 ITEM LIJST RENDEREN
-  // ---------------------------------------------------------------------------
   function renderList(category, priceKey, showImages = true) {
     const items = BikeType[category];
     const prices = BikeType[priceKey];
@@ -140,9 +130,6 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // 🖼️ WAT LATEN WE ZIEN?
-  // ---------------------------------------------------------------------------
   const componentsMap = {
     zadel: ["zadelPrijs", true],
     zadelHoogte: ["zadelHoogtePrijs", true],

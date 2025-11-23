@@ -12,7 +12,7 @@ function JouwBrompton(props) {
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [highlightedField, setHighlightedField] = useState(null); // ✅ Nieuw
+  const [highlightedField, setHighlightedField] = useState(null);
 
   const calculatePrice = (componentPrices) => {
     const BikeType = bikes.find(bike => bike.id === props.model);
@@ -31,10 +31,8 @@ function JouwBrompton(props) {
     const nextSelected = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
     const nextPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
 
-    // vorige staat uit React-state
     const prevSelected = data.selectedOptions || {};
 
-    // bepaal exact welke keys verschillen (volgorde-onafhankelijk)
     const allKeys = Array.from(new Set([...Object.keys(prevSelected), ...Object.keys(nextSelected)]));
     const changedKeys = allKeys.filter((k) => prevSelected[k] !== nextSelected[k]);
 
@@ -45,12 +43,10 @@ function JouwBrompton(props) {
       prijs: calculatePrice(nextPrices),
     });
 
-    // highlight alleen bij één duidelijke wijziging
     if (changedKeys.length === 1) {
       setHighlightedField(changedKeys[0]);
       setTimeout(() => setHighlightedField(null), 600);
     } else {
-      // geen of meerdere wijzigingen: niet highlighten
       setHighlightedField(null);
     }
   };
@@ -182,5 +178,3 @@ function JouwBrompton(props) {
 }
 
 export default JouwBrompton;
-
-

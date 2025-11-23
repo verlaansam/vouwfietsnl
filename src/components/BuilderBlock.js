@@ -9,41 +9,28 @@ function BuilderBlock(props) {
   const [component, setComponent] = useState('kleur');
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  // ⭐ Perfecte open/close slide animatie
   const [maxHeight, setMaxHeight] = useState("0px");
   const pickerRef = useRef(null);
 
-  /**
-   * ⭐ 3-Fase animatie (ALTIJD WORKING)
-   * - bij open: 0px → echte height → auto
-   * - bij sluit: echte height → 0px
-   */
   useEffect(() => {
     const el = pickerRef.current;
     if (!el) return;
 
     if (showMore) {
-      // 1) Start altijd op 0 → zodat de animatie *altijd* opnieuw begint
       setMaxHeight("0px");
 
-      // 2) Volgende frame → animeren naar echte hoogte
       requestAnimationFrame(() => {
         const realHeight = el.scrollHeight + "px";
         setMaxHeight(realHeight);
 
-        // 3) Na de animatie → auto zodat dynamische content goed blijft
         setTimeout(() => {
           setMaxHeight("auto");
-        }, 700); // zelfde als duration-700
+        }, 700);
       });
-
     } else {
-      // SLUITEN
-      // 1) Lock huidige hoogte
       const current = el.scrollHeight + "px";
       setMaxHeight(current);
 
-      // 2) Volgende frame → naar 0px animeren
       requestAnimationFrame(() => {
         setMaxHeight("0px");
       });
@@ -162,7 +149,6 @@ function BuilderBlock(props) {
       {isExpanded && (
         <div className="w-full mt-4 2xl:mt-0 2xl:flex-1">
           <article className="w-full flex flex-col items-center 2xl:flex-row 2xl:items-start 2xl:gap-4 ">
-            
             <div className="relative w-[360px] aspect-[4/3] 2xl:w-[360px] 2xl:flex-shrink-0">
               <img
                 className="w-full h-full object-cover absolute top-0 left-0"
@@ -184,7 +170,6 @@ function BuilderBlock(props) {
               {renderButton('zadelHoogte', 'w-9 h-9 top-[88px] left-[100px]')}
             </div>
 
-            {/* ⭐ Perfecte slide-down + slide-up animatie */}
             <div
               className="overflow-hidden transition-all duration-700 ease-in-out w-full 2xl:flex-1"
               style={{
