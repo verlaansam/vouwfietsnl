@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import BuilderBlock from './BuilderBlock';
 
 import Aline from '../media/AlineSelecter.png';
@@ -16,22 +16,32 @@ const builderBlocks = [
 ];
 
 function Article(props) {
-  const [selectedModel, setSelectedModel] = useState(null);
-  const visibleBuilders = selectedModel
-    ? builderBlocks.filter(({ model }) => model === selectedModel)
+  const [activeModel, setActiveModel] = useState(null); // can be base model or Electric variant
+
+  const activeCard = useMemo(() => {
+    if (!activeModel) return null;
+    return activeModel.replace('Electric', '');
+  }, [activeModel]);
+
+  const visibleBuilders = activeCard
+    ? builderBlocks.filter(({ model }) => model === activeCard)
     : builderBlocks;
 
   const handleSelect = (model) => {
-    setSelectedModel((prev) => (prev === model ? null : model));
+    setActiveModel((prev) => (prev === model ? null : model));
   };
 
   return (
-    <article className='w-full m-2 md:flex md:flex-col md:items-center'>
+    <article id='brompton-builder' className='w-full m-2 md:flex md:flex-col md:items-center'>
         <h1 className='font-robotoMono text-2xl flex justify-center p-4 md:text-5xl'>Brompton Builder</h1>
         <section className='w-full h-full flex flex-wrap items-start justify-center gap-2 2xl:w-full 2xl:justify-start 2xl:overflow-y-scroll'>
           {visibleBuilders.map((builder) => (
             <div key={builder.model} className=''>
-              <BuilderBlock {...builder} onSelectModel={handleSelect} />
+              <BuilderBlock
+                {...builder}
+                activeModel={activeModel}
+                onSelectModel={handleSelect}
+              />
             </div>
           ))}
         </section>

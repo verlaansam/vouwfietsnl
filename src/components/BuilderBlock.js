@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Exclude from '../media/Exclude.png';
 import ComponentPicker from './ComponentPicker';
 import mapImages from './MapImages';
 
 function BuilderBlock(props) {
-  const [visibleModel, setVisibleModel] = useState(null);
   const [showMore, setShowMore] = useState(true);
   const [component, setComponent] = useState('kleur');
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -12,11 +11,14 @@ function BuilderBlock(props) {
   const [maxHeight, setMaxHeight] = useState("0px");
   const pickerRef = useRef(null);
 
+  const isExpanded = props.activeModel === props.model || props.activeModel === `${props.model}Electric`;
+  const currentModel = useMemo(() => (isExpanded ? props.activeModel : null), [isExpanded, props.activeModel]);
+
   useEffect(() => {
     const el = pickerRef.current;
     if (!el) return;
 
-    if (showMore) {
+    if (showMore && isExpanded) {
       setMaxHeight("0px");
 
       requestAnimationFrame(() => {
@@ -35,14 +37,16 @@ function BuilderBlock(props) {
         setMaxHeight("0px");
       });
     }
-  }, [showMore, component, visibleModel]);
+  }, [showMore, component, isExpanded]);
 
   useEffect(() => {
-    if (visibleModel) {
+    if (isExpanded) {
       setComponent('kleur');
       setShowMore(true);
+    } else {
+      setShowMore(false);
     }
-  }, [visibleModel]);
+  }, [isExpanded]);
 
   const handleClick = (event) => {
     const clickedComponent = event.target.id;
@@ -59,18 +63,10 @@ function BuilderBlock(props) {
   };
 
   const toggleModel = (model) => {
-    const sameModel = visibleModel === model;
-    if (sameModel) {
-      setVisibleModel(null);
-      setShowMore(false);
-      if (props.onSelectModel) props.onSelectModel(null);
-      return;
-    }
-
-    setVisibleModel(model);
-    setShowMore(true);
+    const sameModel = props.activeModel === model;
+    setShowMore(!sameModel);
     setComponent('kleur');
-    if (props.onSelectModel) props.onSelectModel(props.model);
+    if (props.onSelectModel) props.onSelectModel(model);
   };
 
   const renderButton = (id, style) => {
@@ -101,15 +97,13 @@ function BuilderBlock(props) {
     );
   };
 
-  const isExpanded = visibleModel === props.model || visibleModel === `${props.model}Electric`;
-
   return (
     <article className="border border-neutral-300 w-full 2xl:flex 2xl:items-start 2xl:gap-4 min-h-[341px]">
       <section className="w-full 2xl:max-w-[360px] 2xl:flex-shrink-0 flex flex-col items-center">
         <img
           className={`w-[360px] h-auto ${isExpanded ? '2xl:hidden' : ''}`}
           src={
-            getModelImage(visibleModel) ||
+            getModelImage(currentModel) ||
             getModelImage(props.model) ||
             mapImages['PLineSelecter']
           }
@@ -131,7 +125,7 @@ function BuilderBlock(props) {
               onClick={() => toggleModel(props.model)}
               className="font-robotoMono text-sm border border-black p-1 m-2 hover:text-white hover:bg-black"
             >
-              {visibleModel === props.model ? 'verberg' : 'Ontdek'} {props.model}
+              {props.activeModel === props.model ? 'verberg' : 'Ontdek'} {props.model}
             </button>
 
             {props.hasElectric && (
@@ -139,7 +133,7 @@ function BuilderBlock(props) {
                 onClick={() => toggleModel(`${props.model}Electric`)}
                 className="font-robotoMono text-sm border-b border-black m-2"
               >
-                {visibleModel === `${props.model}Electric` ? 'verberg' : 'Ontdek'} {props.model} Electric
+                {props.activeModel === `${props.model}Electric` ? 'verberg' : 'Ontdek'} {props.model} Electric
               </button>
             )}
           </div>
@@ -157,7 +151,7 @@ function BuilderBlock(props) {
               />
               <img
                 className="w-full h-full object-cover"
-                src={getModelImage(visibleModel) || getModelImage(props.model)}
+                src={getModelImage(currentModel) || getModelImage(props.model)}
                 alt={props.model}
               />
 
@@ -180,7 +174,7 @@ function BuilderBlock(props) {
             >
               <div ref={pickerRef}>
                 <ComponentPicker
-                  model={visibleModel}
+                  model={currentModel}
                   component={component}
                   selectedOptions={selectedOptions}
                   setSelectedOptions={setSelectedOptions}
