@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { bikes } from './data';
 
 function JouwBrompton(props) {
@@ -14,7 +14,7 @@ function JouwBrompton(props) {
   const [phone, setPhone] = useState('');
   const [highlightedField, setHighlightedField] = useState(null);
 
-  const calculatePrice = (componentPrices) => {
+  const calculatePrice = useCallback((componentPrices) => {
     const BikeType = bikes.find(bike => bike.id === props.model);
     const startPrijs = BikeType ? BikeType.startPrijs : 0;
 
@@ -24,45 +24,44 @@ function JouwBrompton(props) {
     );
 
     return parseInt(componentTotalPrice) + parseInt(startPrijs);
-  };
- 
-  const handleStorage = () => {
-    const model = props.model;
-    const nextSelected = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
-    const nextPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
-
-    const prevSelected = data.selectedOptions || {};
-
-    const allKeys = Array.from(new Set([...Object.keys(prevSelected), ...Object.keys(nextSelected)]));
-    const changedKeys = allKeys.filter((k) => prevSelected[k] !== nextSelected[k]);
-
-    setData({
-      model,
-      selectedOptions: nextSelected,
-      componentPrices: nextPrices,
-      prijs: calculatePrice(nextPrices),
-    });
-
-    if (changedKeys.length === 1) {
-      setHighlightedField(changedKeys[0]);
-      setTimeout(() => setHighlightedField(null), 600);
-    } else {
-      setHighlightedField(null);
-    }
-  };
+  }, [props.model]);
 
   useEffect(() => {
+    const handleStorage = () => {
+      const model = props.model;
+      const nextSelected = JSON.parse(localStorage.getItem(`${props.model}_SelectedOptions`)) || {};
+      const nextPrices = JSON.parse(localStorage.getItem(`${props.model}_ComponentPrices`)) || {};
+
+      setData((prev) => {
+        const prevSelected = prev.selectedOptions || {};
+        const allKeys = Array.from(new Set([...Object.keys(prevSelected), ...Object.keys(nextSelected)]));
+        const changedKeys = allKeys.filter((k) => prevSelected[k] !== nextSelected[k]);
+
+        if (changedKeys.length === 1) {
+          setHighlightedField(changedKeys[0]);
+          setTimeout(() => setHighlightedField(null), 600);
+        } else {
+          setHighlightedField(null);
+        }
+
+        return {
+          model,
+          selectedOptions: nextSelected,
+          componentPrices: nextPrices,
+          prijs: calculatePrice(nextPrices),
+        };
+      });
+    };
+
     handleStorage();
     window.addEventListener('storage', handleStorage);
     window.addEventListener('builder-updated', handleStorage);
-    document.addEventListener('click', handleStorage);
 
     return () => {
       window.removeEventListener('storage', handleStorage);
       window.removeEventListener('builder-updated', handleStorage);
-      document.removeEventListener('click', handleStorage);
     };
-  }, []);
+  }, [props.model, calculatePrice]);
 
   const isAllComponentsAvailable = () => {
     const { selectedOptions, componentPrices } = data;

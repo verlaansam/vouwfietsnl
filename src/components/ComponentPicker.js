@@ -10,19 +10,43 @@ function ComponentPicker({ model, component, selectedOptions, setSelectedOptions
   const priceStorageKey = `${model}_ComponentPrices`;
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
-    const savedPrices = JSON.parse(localStorage.getItem(priceStorageKey) || "{}");
+    if (!model || !BikeType) return;
+
+    let saved = {};
+    let savedPrices = {};
+
+    try {
+      saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    } catch (err) {
+      saved = {};
+    }
+
+    try {
+      savedPrices = JSON.parse(localStorage.getItem(priceStorageKey) || "{}");
+    } catch (err) {
+      savedPrices = {};
+    }
 
     const cleaned = Object.fromEntries(
-      Object.entries(saved).filter(([category, item]) =>
-        BikeType?.[category]?.includes(item)
-      )
+      Object.entries(saved).filter(([category, item]) => {
+        const options = BikeType?.[category];
+        if (!Array.isArray(options)) return false;
+        return options.map(String).includes(String(item));
+      })
     );
 
     setSelectedOptions(cleaned);
-    localStorage.setItem(storageKey, JSON.stringify(cleaned));
-    localStorage.setItem(priceStorageKey, JSON.stringify(savedPrices));
-  }, [model]);
+
+    if (JSON.stringify(saved) !== JSON.stringify(cleaned)) {
+      localStorage.setItem(storageKey, JSON.stringify(cleaned));
+    } else if (!localStorage.getItem(storageKey)) {
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+    }
+
+    if (!localStorage.getItem(priceStorageKey)) {
+      localStorage.setItem(priceStorageKey, JSON.stringify(savedPrices));
+    }
+  }, [model, BikeType, setSelectedOptions, storageKey, priceStorageKey]);
 
   function handleClick(e) {
     const category = e.currentTarget.id;
